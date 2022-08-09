@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Register from "./Register";
+import Login from "./Login";
+import { useSelector, useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const products = useSelector((state) => state.products);
+  const users = useSelector((state) => state.users);
+  const user = useSelector((state) => state.user);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {products.map((products, i) => {
+        return <h1>{products.name}</h1>;
+      })}
+      {users.map((users, i) => {
+        return <h1>{users.name}-{users.username}-{users.password}</h1>;
+      })}
+
+      <Register />
+      {user ? (
+        <input
+          type="button"
+          value="logout"
+          onClick={() => {
+            dispatch({
+              type: "LOGOUT",
+            });
+          }}
+        />
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }
